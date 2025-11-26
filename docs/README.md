@@ -35,8 +35,6 @@ For each inner row, elements on the main diagonal are equal to 2, and elements o
 The right-hand side vector b is chosen as a vector of ones, and the initial guess x₀ is the zero vector.  
 The stopping criterion is the residual norm tolerance ε = 1e−10.
 
-*(Here you can insert summary plots of time/speedup for all implementations.)*
-
 ## C implementation with pthreads
 
 The pthreads implementation uses shared memory and creates a thread pool, where the sparse matrix is split by rows among threads for the SpMV operation.  
@@ -44,7 +42,9 @@ Scalar products are computed via partial sums in threads with a reduction in the
 
 The experiments show speedup up to 16 threads. After that, further improvement stops and the real time starts to increase due to higher system overheads (synchronization, barriers) and pressure on the memory subsystem.  
 
-*(Here you can insert a time/speedup vs. number of threads plot for the pthreads implementation.)*
+![Pthreads scaling](graphics/pthreads.png)
+
+![Pthreads real time](graphics/pthreads_only_real.png)
 
 ## C implementation with MPI
 
@@ -54,7 +54,10 @@ Scalar products and norms are synchronized using collective operations, while th
 The best scaling in terms of real execution time is achieved at about 8–16 processes.  
 Further increasing the number of processes reduces the real-time gains, while system time grows sharply due to the cost of collective communication and the increased data exchange volume between processes.  
 
-*(Here you can insert a scalability plot for the C/MPI implementation.)*
+![C/MPI scaling](graphics/c_mpi.png)
+
+![C/MPI real time](graphics/c_mpi_only_real.png)
+
 
 ## Python implementation with mpi4py
 
@@ -63,7 +66,10 @@ The Python implementation with mpi4py follows the same scheme as C/MPI: the matr
 For the same number of processes, this implementation shows significantly larger real time than the C versions due to interpreter overhead and Python-level data structures.  
 At the same time, the qualitative dependence of runtime on the number of processes follows the same general trend as in the C/MPI implementation.  
 
-*(Here you can insert a runtime plot for the Python/mpi4py implementation.)*
+![Python MPI scaling](graphics/py_mpi.png)
+
+![Python MPI real time](graphics/py_mpi_only_real.png)
+
 
 ## C implementation with OpenMP
 
@@ -73,7 +79,10 @@ SpMV, scalar products, and vector updates are implemented as parallel loops with
 The C/OpenMP implementation shows the best solution time among all variants at a moderate number of threads (around 8–16), providing significant speedup over the single-threaded run.  
 System overheads are lower than in the pthreads and MPI variants. The anomaly at 48 threads is related to convergence behavior when the matrix is partitioned differently.  
 
-*(Here you can insert a time/speedup plot for the OpenMP implementation.)*
+![OpenMP scaling](graphics/omp.png)
+
+![OpenMP real time](graphics/omp_only_real.png)
+
 
 ## Conclusions
 
