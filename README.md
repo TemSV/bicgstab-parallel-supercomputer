@@ -1,5 +1,7 @@
 # Stabilized Bi-Conjugate Gradient Method
 
+[Читать на русском](README_ru.md)
+
 The repository contains implementations of the BiCGStab method for solving sparse systems of linear algebraic equations (SLAEs) on a supercomputer in several parallelization models: C/pthreads, C/MPI, Python/mpi4py, and C/OpenMP.
 
 ## Problem statement
